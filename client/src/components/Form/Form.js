@@ -21,6 +21,7 @@ const Form =({currentId,setCurrentId})=>{
           }else{
           dispatch(createPost(postData));
           }
+        clear();
     }
 
     useEffect(()=>{
@@ -28,14 +29,16 @@ const Form =({currentId,setCurrentId})=>{
     },[post])
 
     const clear=  ()=>{
-
+           
+        setCurrentId(null);
+        setPostData({creator:'',title:'',message:'',tags:'',selectedFile:''})
     }
     return (
         <StyledPaper>
             <StyledForm  autoComplete='off' noValidate  onSubmit={handleSubmit}>
 
 
-            <Typography variant='h6'> Creating Memories </Typography>
+            <Typography variant='h6'> {!currentId?'Creating':'Editing'} a Reminiscia </Typography>
 
 
         <TextField name='creator' 

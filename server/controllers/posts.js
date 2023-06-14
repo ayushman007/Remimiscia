@@ -1,5 +1,5 @@
 import { mongoose } from 'mongoose';
-import express from 'express';
+
 import PostMessage from '../models/postMessage.js'
 
 export const getPosts= async (req,res)=>{
@@ -40,3 +40,18 @@ export const updatePost=async (req,res)=>{
         res.status(404).json({message:error.message});
     }
 }
+
+export const deletePost=async (req,res)=>{
+    try{
+        const _id=req.params.id;
+        if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No post with id " + _id)
+        const deletedPost=await PostMessage.findByIdAndDelete(_id);
+        res.status(200).json(deletedPost);
+        
+        console.log(deletedPost);
+
+    }catch(error){
+        console.log('error retrieving post',error)
+        res.status(404).json({message:error.message});
+    }
+}   

@@ -4,12 +4,16 @@ import { CardContent,Button,Typography} from '@mui/material';
 import { StyledCard,StyledCardMedia,StyledBox,StyledBox2,StyledBox3 ,StyledTypography,StyledCardActions} from './style.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
+import {useDispatch} from 'react-redux';
+import { deletePost } from '../../../actions/posts.js';
 import moment from 'moment';
 
 
 
 const Post =({post,setCurrentId})=>{
+
+        const dispatch = useDispatch();
+
     return (
         <StyledCard>
             <StyledCardMedia image={post.selectedFile} title={post.title}/>
@@ -35,7 +39,7 @@ const Post =({post,setCurrentId})=>{
             <StyledBox2>
                 <Button sx={{color:'white'}} size='small' onClick={()=>{
                     setCurrentId(post._id)
-                    console.log('button clicked')
+                    // console.log('button clicked')
                 }}>
                     <MoreHorizIcon fontSize='default'/>
                 </Button>
@@ -45,9 +49,10 @@ const Post =({post,setCurrentId})=>{
                    <Typography variant='h6' color="textSecondary"> {post.tags.map(tag =>`#${tag}`)} </Typography>
                    
             </StyledBox3>
-
+            <StyledTypography  gutterBottom variant="h5" >{post.title}</StyledTypography>
             <CardContent>
-            <StyledTypography  gutterBottom variant="h5" component="h2">{post.title}</StyledTypography>
+            
+            <Typography variant='h6' gutterBottom>{post.message}</Typography>
             </CardContent>
 
             <StyledCardActions>
@@ -57,7 +62,7 @@ const Post =({post,setCurrentId})=>{
                  {post.likeCount}
                </Button>
 
-               <Button  size='small' color='primary' onClick={()=>{}}>
+               <Button  size='small' color='primary' onClick={()=>{dispatch(deletePost(post._id))}}>
                  <DeleteIcon fontSize='small'/>
                  Delete
                  
